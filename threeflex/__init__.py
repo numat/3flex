@@ -81,6 +81,11 @@ class Analyzer(object):
                           for r in [row[4:22], row[22:40], row[40:]]]}
 
     def read_line(self):
+        """Reads a line of data from the TCP connection.
+
+        Returns:
+            A unicode string, with the newline characters stripped.
+        """
         try:
             line = self.conn.read_until(b"\r\n", timeout=self.timeout)
         except socket.timeout:
@@ -106,7 +111,7 @@ def command_line():
                         "192.168.77.100.")
     parser.add_argument("--stream", "-s", action="store_true",
                         help="Sends a constant stream of 3Flex data, "
-                             "formatted as a tab-separated table.")
+                        "formatted as a tab-separated table.")
     args = parser.parse_args()
 
     analyzer = Analyzer(args.address)
