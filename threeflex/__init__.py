@@ -19,6 +19,13 @@ def try_float(value):
         return value
 
 
+def color_text(message):
+    """Wraps the message in a color code. Currently only supports red."""
+    red = "\033[01;31m"
+    native = "\033[m\r\n"
+    return red + message + native
+
+
 class Analyzer(object):
     """Python driver for [Micromeritics 3Flex surface characterization
     analyzers](http://www.micromeritics.com/Product-Showcase/
@@ -27,9 +34,6 @@ class Analyzer(object):
     This reads the state of the 3Flex through a raw TCP/IP connection. This
     interface is read-only, providing no means to control the equipment.
     """
-    red = "\033[01;31m"
-    native = "\033[m\r\n"
-    error_message = "Could not connect to 3Flex. Is it running?"
 
     def __init__(self, address="192.168.77.100", timeout=2):
         """Connects to the appropriate IP address.
@@ -41,8 +45,9 @@ class Analyzer(object):
         self.timeout = timeout
         try:
             self.conn = Telnet(address, 54000, timeout)
-        except socket.timeout:
-            sys.stderr.write(self.red + self.error_message + self.native)
+        except (socket.timeout, ConnectionRefusedError):
+            sys.stderr.write(color_text("Could not connect to 3Flex at {}."
+                                        .format(address)))
             raise
         self.first_line = self.read_line()
 
@@ -88,8 +93,12 @@ class Analyzer(object):
         """
         try:
             line = self.conn.read_until(b"\r\n", timeout=self.timeout)
+            if not line:
+                raise socket.timeout()
         except socket.timeout:
-            sys.stderr.write(self.red + self.error_message + self.native)
+            sys.stderr.write(color_text("Could not read from 3Flex. Note: it "
+                                        "only sends data when running an "
+                                        "experiment."))
             raise
         return line.decode("utf-8").strip()
 

@@ -54,7 +54,7 @@ If the analyzer is currently running, this should return an object of the form:
 {
   "time": 4816304.0,             # Time since beginning, in milliseconds
   "manifold": {
-    "pressure": 6.3,             # Manifold pressure, torr  
+    "pressure": 6.3,             # Manifold pressure, torr
     "temperature": 318.1,        # Manifold temperature, K
     "volume": 35.0               # Manifold volume, cc
   },

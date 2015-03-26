@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="threeflex",
-    version="0.1.0",
+    version="0.1.1",
     description="Python driver for Micromeritics 3Flex surface "
                 "characterization analyzers.",
     url="http://github.com/numat/threeflex/",
