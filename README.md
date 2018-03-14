@@ -28,7 +28,7 @@ python setup.py install
 Usage
 =====
 
-###Command Line
+### Command Line
 
 For basic tasks, this driver includes a command-line interface. This command
 will output either a JSON representation of the current state, or a raw stream
@@ -38,7 +38,7 @@ of tab-separated values with the `--stream` flag. Read the help for more.
 threeflex --help
 ```
 
-###Python
+### Python
 
 For more complex projects, use python to automate your workflow.
 
